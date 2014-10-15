@@ -642,15 +642,52 @@ int main ()
 {
 	tp_buffer *bp = (tp_buffer*)malloc(sizeof(tp_buffer)*PAGES);
 	bp = initbuffer();
-	char *nomeDigitado;
-	char *nome=(char *)malloc(sizeof(char)*TAMANHO_NOME_TABELA);
 	
-	printf("Digite o nome da tabela!\n");
-	scanf("%p",&nomeDigitado);
+	char *nomeTabela=(char *)malloc(sizeof(char)*TAMANHO_NOME_TABELA);
+	char *nomeCampo=(char *)malloc(sizeof(char)*TAMANHO_NOME_CAMPO);
+	char *inserir=(char *)malloc(sizeof(char)*1);
 	
-	strcpy(nome,nomeDigitado);
-
-	table *t = (table *)malloc(sizeof(table)*1);	
-	t = iniciaTabela(nome);
-	return 0;
+	char tipoCampo;
+	
+	table *tabela = (table *)malloc(sizeof(table)*1);	
+	int fimCampos = 0, numTabelas, tamanhoCampo, i;
+	
+	printf("Digite o numero de tabelas a serem inseridas!\n");
+	scanf("%i",&numTabelas);
+	
+	for(i = 0; i < numTabelas; i++){
+		printf("Digite o nome da tabela!\n");
+		scanf("%s",nomeTabela);
+			
+		tabela = iniciaTabela(nomeTabela);
+		
+		while(fimCampos == 0){
+			printf("Digite o Nome do campo!\n");
+			scanf("%s",nomeCampo);
+			fflush(stdin);
+			
+			printf("Digite o Tipo do campo!\n");
+			scanf("%c",&tipoCampo);
+			fflush(stdin);
+			
+			printf("Digite o Tamanho do campo!\n");
+			scanf("%d",&tamanhoCampo);	
+			
+			tabela = adicionaCampo(tabela, nomeCampo, tipoCampo, tamanhoCampo);
+			
+			printf("Deseja inserir um novo campo? (Y/N)\n");
+			scanf("%s",inserir);
+			
+			if(!strcmp(inserir,"N")){
+				fimCampos = 1;
+				finalizaTabela(tabela);
+			}	
+		}
 	}
+	printf("Digite o nome da tabela!\n");
+	scanf("%s",nomeTabela);
+	
+	
+	//printf("%d",i);
+	return 0;
+}
